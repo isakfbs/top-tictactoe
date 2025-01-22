@@ -1,0 +1,55 @@
+body {
+  font-family: "Josefin Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#status {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  justify-content: center;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: bold;
+  border: 2px solid #333;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: #ddd;
+}
+
+.cell.taken {
+  cursor: not-allowed;
+}
+
+#reset {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+}

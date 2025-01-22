@@ -106,32 +106,34 @@ function GameController() {
   return { playRound, resetGame, printBoard: gameboard.printBoard };
 }
 
-const game = GameController();
-console.log(game.printBoard());
+const ScreenController = (() => {
+  const board = document.getElementById("board");
+  const statusElement = document.getElementById("status");
 
-game.playRound(0, 1); // X marks (0, 0)
-console.log(game.printBoard());
+  const renderBoard = (gameboard) => {
+    board.innerHTML = "";
+    gameboard.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        const cellElement = document.createElement("div");
+        cellElement.classList.add("cell");
+        cellElement.dataset.row = rowIndex;
+        cellElement.dataset.col = colIndex;
+        cellElement.textContent = cell !== null ? cell : "";
+        if (cell !== null) {
+          cellElement.classList.add("taken");
+        }
+        board.appendChild(cellElement);
+      });
+    });
+  };
+  return { renderBoard };
+})();
 
-game.playRound(0, 0); // O marks (0, 1)
-console.log(game.printBoard());
+const mockBoard = [
+  ["X", null, "O"],
+  [null, "X", null],
+  ["O", null, null],
+];
 
-game.playRound(1, 1); // X marks (1, 1)
-console.log(game.printBoard());
-
-game.playRound(2, 1); // O marks (0, 2)
-console.log(game.printBoard());
-
-game.playRound(2, 0);
-console.log(game.printBoard());
-
-game.playRound(0, 2);
-console.log(game.printBoard());
-
-game.playRound(2, 2);
-console.log(game.printBoard());
-
-game.playRound(1, 0);
-console.log(game.printBoard());
-
-game.playRound(1, 2);
-console.log(game.printBoard());
+ScreenController.renderBoard(mockBoard);
+console.log(document.getElementById("board").innerHTML);
