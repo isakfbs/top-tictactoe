@@ -1,37 +1,11 @@
-function Gameboard() {
-  const board = [];
+import { GameBoard } from "./gameBoard.js";
 
-  for (let i = 0; i < 3; i++) {
-    board[i] = [];
-    for (let j = 0; j < 3; j++) {
-      board[i].push(null);
-    }
-  }
-
-  const getBoard = () => board;
-
-  const printBoard = () => {
-    return board
-      .map((row) => row.map((cell) => (cell === null ? "_" : cell)).join(" | "))
-      .join("\n----------\n");
-  };
-
-  const markCell = (row, col, token) => {
-    if (board[row][col] === null) {
-      board[row][col] = token;
-      return true;
-    }
-    console.log("Invalid Action, Try Again!");
-    return false;
-  };
-
-  return { getBoard, printBoard, markCell };
-}
-
-function GameController() {
-  const gameboard = Gameboard();
+export function GameController() {
+  const gameboard = GameBoard();
   let currentPlayer = "X";
   let winner = null;
+
+  const getCurrentPlayer = () => currentPlayer;
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
@@ -103,37 +77,12 @@ function GameController() {
     }
   };
 
-  return { playRound, resetGame, printBoard: gameboard.printBoard };
-}
-
-const ScreenController = (() => {
-  const board = document.getElementById("board");
-  const statusElement = document.getElementById("status");
-
-  const renderBoard = (gameboard) => {
-    board.innerHTML = "";
-    gameboard.forEach((row, rowIndex) => {
-      row.forEach((cell, colIndex) => {
-        const cellElement = document.createElement("div");
-        cellElement.classList.add("cell");
-        cellElement.dataset.row = rowIndex;
-        cellElement.dataset.col = colIndex;
-        cellElement.textContent = cell !== null ? cell : "";
-        if (cell !== null) {
-          cellElement.classList.add("taken");
-        }
-        board.appendChild(cellElement);
-      });
-    });
+  return {
+    checkWinner,
+    isDraw,
+    playRound,
+    getCurrentPlayer,
+    resetGame,
+    getBoard: gameboard.getBoard,
   };
-  return { renderBoard };
-})();
-
-const mockBoard = [
-  ["X", null, "O"],
-  [null, "X", null],
-  ["O", null, null],
-];
-
-ScreenController.renderBoard(mockBoard);
-console.log(document.getElementById("board").innerHTML);
+}
